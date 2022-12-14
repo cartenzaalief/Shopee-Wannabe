@@ -6,13 +6,17 @@ import {
   InputRightElement,
   Button,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import Axios from "axios"
-
-const API_URL = "http://localhost:2000"
+import Axios from "axios";
+import { API_URL } from "../helper";
+import { loginAction } from "../actions/userAction";
+import { useDispatch } from "react-redux";
 
 const Login = (props) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
 
@@ -22,13 +26,17 @@ const Login = (props) => {
   const buttonLogin = () => {
     // alert(`${inputEmail} dan ${inputPassword}`)
     Axios.get(API_URL + `/users?email=${inputEmail}&password=${inputPassword}`) // Axios.get(http://localhost:2000/users?email=carten@mail.com$password=123456)
-    .then((response) => {
-      console.log(response.data);
-    })
-    .catch(() => {
-      alert("Terjadi kesalahan di server!")
-    })
-  }
+      .then((response) => {
+        console.log(response.data);
+        delete response.data[0].password
+        dispatch(loginAction(response.data[0]))
+        localStorage.setItem("shopee_login", JSON.stringify(response.data[0]));
+        navigate("/", { replace: true });
+      })
+      .catch(() => {
+        alert("Terjadi kesalahan di server!");
+      });
+  };
 
   return (
     <div
@@ -62,7 +70,12 @@ const Login = (props) => {
           </InputRightElement>
         </InputGroup>
         <div className="text-end mt-5">Forgot password ? Click here</div>
-        <Button className="mt-2" style={{ width: "100%" }} colorScheme="orange" onClick={buttonLogin}>
+        <Button
+          className="mt-2"
+          style={{ width: "100%" }}
+          colorScheme="orange"
+          onClick={buttonLogin}
+        >
           Login
         </Button>
       </div>
