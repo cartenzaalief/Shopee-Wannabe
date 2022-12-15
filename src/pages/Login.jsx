@@ -14,22 +14,24 @@ import { loginAction } from "../actions/userAction";
 import { useDispatch } from "react-redux";
 
 const Login = (props) => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
 
-  const [inputEmail, setInputEmail] = React.useState(""); // inputEmail = "" --> "carten@mail.com"
-  const [inputPassword, setInputPassword] = React.useState(""); // inputPassword = "" --> 123456
+  const [inputEmail, setInputEmail] = React.useState("");
+  const [inputPassword, setInputPassword] = React.useState("");
+  // inputEmail = "" --> "selena01@mail.com"
+  // inputPassword = "" --> 123456
 
   const buttonLogin = () => {
     // alert(`${inputEmail} dan ${inputPassword}`)
-    Axios.get(API_URL + `/users?email=${inputEmail}&password=${inputPassword}`) // Axios.get(http://localhost:2000/users?email=carten@mail.com$password=123456)
+    Axios.get(API_URL + `/users?email=${inputEmail}&password=${inputPassword}`)
       .then((response) => {
         console.log(response.data);
-        delete response.data[0].password
-        dispatch(loginAction(response.data[0]))
+        delete response.data[0].password;
+        dispatch(loginAction(response.data[0]));
         localStorage.setItem("shopee_login", JSON.stringify(response.data[0]));
         navigate("/", { replace: true });
       })
