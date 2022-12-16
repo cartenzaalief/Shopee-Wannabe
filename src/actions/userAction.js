@@ -5,3 +5,10 @@ export const loginAction = (data) => {
         payload: data
     }
 }
+
+export const logoutAction = () => {
+    localStorage.removeItem("shopee_login")
+    return {
+        type: "LOGOUT"
+    }
+}

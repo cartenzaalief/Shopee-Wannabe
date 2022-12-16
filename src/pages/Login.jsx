@@ -78,7 +78,7 @@ const Login = (props) => {
           colorScheme="orange"
           onClick={buttonLogin}
         >
-          Login
+          Log in
         </Button>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.css";
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
@@ -14,19 +15,30 @@ import { loginAction } from "./actions/userAction";
 
 function App() {
   const dispatch = useDispatch();
-  
+
+  const [loading, setLoading] = React.useState(true);
+
   const keepLogin = () => {
     let getLocalStorage = JSON.parse(localStorage.getItem("shopee_login"));
     console.log(getLocalStorage);
-    Axios.get(API_URL + `/users?id=${getLocalStorage.id}`)
-      .then((response) => {
-        delete response.data[0].password;
-        dispatch(loginAction(response.data[0]));
-        localStorage.setItem("shopee_login", JSON.stringify(response.data[0]));
-      })
-      .catch(() => {
-        alert("Terjadi kesalahan di server!");
-      });
+    if (getLocalStorage) {
+      Axios.get(API_URL + `/users?id=${getLocalStorage.id}`)
+        .then((response) => {
+          delete response.data[0].password;
+          dispatch(loginAction(response.data[0]));
+          setLoading(false);
+          localStorage.setItem(
+            "shopee_login",
+            JSON.stringify(response.data[0])
+          );
+        })
+        .catch(() => {
+          alert("Terjadi kesalahan di server!");
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -35,7 +47,7 @@ function App() {
 
   return (
     <div>
-      <Navbar />
+      <Navbar loading={loading} />
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />

@@ -1,9 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Button, ButtonGroup } from "@chakra-ui/react";
+import { Button, ButtonGroup, Spinner, Menu, MenuItem, MenuDivider, Avatar, AvatarBadge, MenuList, MenuButton, Text } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
+import { AiOutlineLogout } from "react-icons/ai"
+import { logoutAction } from "../actions/userAction";
+import { useDispatch } from "react-redux";
 
 const Navbar = (props) => {
+  const dispatch = useDispatch()
+
   const { username } = useSelector((state) => {
     return {
       username: state.userReducer.username,
@@ -12,9 +17,9 @@ const Navbar = (props) => {
 
   return (
     <div>
-      <nav className="navbar navbar-expand-lg bg-light">
+      <nav className="navbar navbar-expand-lg mx-5">
         <div className="container-fluid">
-          <Link to="/">Shopee Carten</Link>
+          <Link to="/"><Text as="b" color="darkorange">Shopee Carten</Text></Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -27,8 +32,28 @@ const Navbar = (props) => {
             <span className="navbar-toggler-icon"></span>
           </button>
         </div>
-        {username ? (
-          <span>{username}</span>
+        {props.loading ? (
+          <Spinner />
+        ) : username ? (
+          <Menu>
+            <MenuButton type="button">
+              <Avatar name={username} size="md">
+                <AvatarBadge boxSize="1em" bg="green.500" />
+              </Avatar>
+            </MenuButton>
+            <MenuList textColor="black">
+              <div>
+                <MenuItem>Cart </MenuItem>
+                <MenuItem>Transactions</MenuItem>
+                <MenuItem>Profile</MenuItem>
+              </div>
+              <MenuDivider />
+              <MenuItem onClick={() => dispatch(logoutAction())}>
+                Log out
+                <AiOutlineLogout className="ms-2" />
+              </MenuItem>
+            </MenuList>
+          </Menu>
         ) : (
           <ButtonGroup style={{ marginRight: 30 }}>
             <Link to="/login">
