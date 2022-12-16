@@ -13,6 +13,7 @@ import { API_URL } from "./helper";
 import { useDispatch } from "react-redux";
 import { loginAction } from "./actions/userAction";
 import Products from "./pages/Products";
+import Detail from "./pages/Detail";
 
 function App() {
   const dispatch = useDispatch();
@@ -54,6 +55,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/products" element={<Products />} />
+        <Route path="/detail" element={<Detail />} />
       </Routes>
       <Footer />
     </div>

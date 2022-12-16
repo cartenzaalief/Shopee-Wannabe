@@ -20,6 +20,7 @@ const Navbar = (props) => {
       <nav className="navbar navbar-expand-lg mx-5">
         <div className="container-fluid">
           <Link to="/"><Text as="b" color="darkorange">Shopee Carten</Text></Link>
+          <Link to="/products"><Text>Products</Text></Link>
           <button
             className="navbar-toggler"
             type="button"

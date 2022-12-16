@@ -4,10 +4,12 @@ import Axios from "axios";
 import { API_URL } from "../helper";
 import { getProductAction } from "../actions/productAction";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Products = (props) => {
   const [productData, setProductData] = React.useState([]);
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const { productList } = useSelector((state) => {
     return { productList: state.productReducer.products };
@@ -37,6 +39,7 @@ const Products = (props) => {
           <div
             className="rounded bg-warning text-light d-flex flex-column align-items-center"
             style={{ width: 150, marginTop: -25 }}
+            onClick={() => navigate(`/detail?id=${value.id}`)}
           >
             <div>{value.price}</div>
             <div>{value.name}</div>
