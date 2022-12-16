@@ -2,15 +2,23 @@ import React from "react";
 import { Text, Input, Select, Button, Stack } from "@chakra-ui/react";
 import Axios from "axios";
 import { API_URL } from "../helper";
+import { getProductAction } from "../actions/productAction";
+import { useDispatch, useSelector } from "react-redux";
 
 const Products = (props) => {
   const [productData, setProductData] = React.useState([]);
+  const dispatch = useDispatch();
+
+  const { productList } = useSelector((state) => {
+    return { productList: state.productReducer.products };
+  });
 
   const getProductData = () => {
     Axios.get(API_URL + `/products`)
       .then((response) => {
         console.log(response.data);
-        setProductData(response.data);
+        // setProductData(response.data);
+        dispatch(getProductAction(response.data));
       })
       .catch(() => {
         alert("Terjadi kesalahan di server!");
@@ -22,7 +30,7 @@ const Products = (props) => {
   }, []);
 
   const printProductData = () => {
-    return productData.map((value) => {
+    return productList.map((value) => {
       return (
         <div className="d-flex flex-column align-items-center">
           <img src={value.images} alt="" style={{ width: 200 }} />
