@@ -12,6 +12,7 @@ import Axios from "axios";
 import { API_URL } from "./helper";
 import { useDispatch } from "react-redux";
 import { loginAction } from "./actions/userAction";
+import Products from "./pages/Products";
 
 function App() {
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/products" element={<Products />} />
       </Routes>
       <Footer />
     </div>

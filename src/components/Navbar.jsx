@@ -16,7 +16,7 @@ const Navbar = (props) => {
   });
 
   return (
-    <div>
+    <div className="shadow">
       <nav className="navbar navbar-expand-lg mx-5">
         <div className="container-fluid">
           <Link to="/"><Text as="b" color="darkorange">Shopee Carten</Text></Link>
